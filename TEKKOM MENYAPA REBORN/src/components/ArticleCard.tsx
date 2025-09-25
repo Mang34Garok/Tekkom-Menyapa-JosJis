@@ -12,12 +12,13 @@ interface ArticleCardProps {
     date: string;
   };
   size?: "large" | "small";
+  kategori?: string;
 }
 
-const ArticleCard = ({ title, description, image, author, size = "large" }: ArticleCardProps) => {
+const ArticleCard = ({ title, description, image, author, size = "large", kategori }: ArticleCardProps) => {
   if (size === "large") {
     return (
-      <div className="relative bg-card rounded-xl overflow-hidden shadow-card hover:shadow-hover transition-all duration-300 group">
+  <div className="relative bg-card rounded-xl overflow-hidden shadow-card hover:shadow-2xl hover:scale-[1.04] hover:border-2 hover:border-primary transition-all duration-300 group">
         <div className="aspect-[16/10] overflow-hidden">
           <img
             src={image}
@@ -55,7 +56,7 @@ const ArticleCard = ({ title, description, image, author, size = "large" }: Arti
   }
 
   return (
-    <div className="bg-card rounded-xl overflow-hidden shadow-card hover:shadow-hover transition-all duration-300 group">
+  <div className="bg-card rounded-xl overflow-hidden shadow-card hover:shadow-2xl hover:scale-[1.04] hover:border-2 hover:border-primary transition-all duration-300 group">
       <div className="aspect-[4/3] overflow-hidden">
         <img
           src={image}
@@ -63,15 +64,18 @@ const ArticleCard = ({ title, description, image, author, size = "large" }: Arti
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
-      
       <div className="p-4">
+        {kategori && (
+          <span className="inline-block mb-1 px-2 py-0.5 rounded bg-yellow-200 text-yellow-800 text-[10px] font-bold uppercase tracking-wider">
+            {kategori}
+          </span>
+        )}
         <h3 className="font-semibold text-card-foreground mb-2 line-clamp-2 text-sm">
           {title}
         </h3>
         <p className="text-muted-foreground text-xs line-clamp-2 mb-4">
           {description}
         </p>
-        
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Avatar className="h-6 w-6">
@@ -89,7 +93,6 @@ const ArticleCard = ({ title, description, image, author, size = "large" }: Arti
               </p>
             </div>
           </div>
-          
           <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
             <Bookmark className="h-3 w-3" />
           </Button>
