@@ -137,7 +137,7 @@ const Index = () => {
 
   return (
       <Layout onCategoryChange={setSelectedCategory} selectedCategory={selectedCategory}>
-        <div className="min-h-screen bg-gray-50">
+  <div className="min-h-screen news-background">
           <section className="py-8">
             <div className="container mx-auto px-4">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -145,7 +145,7 @@ const Index = () => {
                 <div className="lg:col-span-2">
                   <FeaturedNewsGrid newsList={paginatedNews} /> {/* Gunakan paginatedNews */}
                   {/* ... Sisa konten di kolom kiri ... */}
-                   <div className="bg-white rounded-lg shadow-lg mt-6 p-6">
+                   <div className="rounded-lg shadow-lg mt-6 p-6 bg-transparent">
                         {/* ... Konten statis ... */}
                         <NewsPagination
                             currentPage={currentPage}
@@ -158,7 +158,9 @@ const Index = () => {
                 </div>
                 {/* Sidebar Kanan */}
                 <div className="space-y-6">
-                  <div className="font-bold text-lg mb-2">Rekomendasi Berita</div>
+                  <div className="mb-2">
+                    <span className="bg-amber-400 text-amber-900 font-bold text-lg px-3 py-1 rounded">Rekomendasi Berita</span>
+                  </div>
                   {recommendedNews.length > 0 ? (
                       recommendedNews.map((news) => (
                           <NewsCard

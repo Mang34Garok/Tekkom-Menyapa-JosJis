@@ -13,21 +13,22 @@ const FeaturedNews = ({ categories, title, excerpt, image, categoryColor }: Feat
   const news = { categories, title, excerpt, image, categoryColor };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-      <img 
-        src={image} 
+    <div className="rounded-lg shadow-lg overflow-hidden bg-transparent">
+      <img
+        src={image}
         alt={title}
         className="w-full h-64 object-cover"
       />
-      <div className="p-6">
-        <span className={`text-sm font-medium ${categoryColor}`}>{categories}</span>
-        <h2 className="text-2xl font-bold text-gray-800 mt-2 mb-3">{title}</h2>
-        <p className="text-gray-600 mb-4">{excerpt}</p>
+      {/* Content panel: semi-opaque dark to contrast with background image */}
+      <div className="p-6 bg-black/55 dark:bg-black/60 text-white backdrop-blur-sm">
+        <span className={`text-sm font-medium inline-block mb-2 px-2 py-0.5 rounded ${categoryColor} bg-white/10`}>{categories}</span>
+        <h2 className="text-2xl font-bold text-white mt-2 mb-3">{title}</h2>
+        <p className="text-gray-100 mb-4">{excerpt}</p>
         <button
-          className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors"
+          className="bg-transparent p-0"
           onClick={() => navigate("/detail", { state: { news } })}
         >
-          Baca Selengkapnya
+          <span className="bg-amber-400 text-amber-900 px-4 py-1 rounded">Baca Selengkapnya</span>
         </button>
       </div>
     </div>

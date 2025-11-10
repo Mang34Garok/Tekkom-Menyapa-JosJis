@@ -29,13 +29,23 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { title, excerpt, image, detail, categories } = req.body;
+  const { title, excerpt, image, detail, categories, userId } = req.body;
 
   if (!title || !excerpt || !image || !detail || !categories || !categories.length) {
     return res.status(400).json({ error: "Semua field wajib diisi." });
   }
 
+  // Basic server-side admin check: ensure the userId belongs to an admin
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized: userId is required" });
+  }
+
   try {
+    const [userRows] = await db.execute("SELECT is_admin FROM users WHERE id = ?", [userId]);
+    const user = userRows && userRows[0];
+    if (!user || Number(user.is_admin) !== 1) {
+      return res.status(403).json({ error: "Hanya admin yang dapat menambahkan berita." });
+    }
     // 1. Masukkan berita ke tabel `news`
     const [result] = await db.execute(
       "INSERT INTO news (title, excerpt, image, detail) VALUES (?, ?, ?, ?)",

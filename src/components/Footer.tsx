@@ -5,11 +5,11 @@ const Footer = () => {
   const navigate = useNavigate();
   // Quotes inspiratif untuk footer
   const footerQuotes = [
-    "Terima kasih telah membaca di NOW WOW News!",
+    "Terima kasih telah membaca di TEKKOM MENYAPA News!",
     "Update terus wawasanmu, dunia ada di genggaman.",
     "Bersama kita cerdas, bersama kita tahu.",
     "Jangan lupa bagikan berita positif hari ini!",
-    "NOW WOW News, sumber inspirasi harianmu."
+    "TEKKOM MENYAPA News, sumber inspirasi harianmu."
   ];
   const randomFooterQuote = footerQuotes[Math.floor(Math.random() * footerQuotes.length)];
 
@@ -21,13 +21,13 @@ const Footer = () => {
           {/* Logo and Tagline */}
           <div className="flex items-center space-x-4 mb-4 md:mb-0">
             <button
-              className="text-2xl font-bold text-red-600 focus:outline-none drop-shadow-lg hover:scale-105 transition-transform"
+              className="text-2xl font-bold text-yellow-500 focus:outline-none drop-shadow-lg hover:scale-105 transition-transform"
               style={{ background: "none", border: "none", padding: 0, lineHeight: 1 }}
               onClick={() => navigate("/")}
-              aria-label="Beranda NOW WOW"
+              aria-label="Beranda TEKKOM MENYAPA"
               type="button"
             >
-              NOW<br />WOW
+              TEKKOM<br />MENYAPA
             </button>
             <p className="text-gray-200 font-semibold italic animate-pulse">{randomFooterQuote}</p>
           </div>
@@ -51,7 +51,7 @@ const Footer = () => {
         {/* Baris copyright dan info tambahan */}
         <div className="mt-8 flex flex-col md:flex-row items-center justify-between text-sm text-gray-300 opacity-80">
           <div>
-            &copy; {new Date().getFullYear()} NOW WOW News. All rights reserved.<br />
+            &copy; {new Date().getFullYear()} TEKKOM MENYAPA News. All rights reserved.<br />
             <span className="text-xs text-gray-400">Creator: Alif Ridhwan Al Ghozali</span>
           </div>
           <div className="flex gap-4 mt-2 md:mt-0">

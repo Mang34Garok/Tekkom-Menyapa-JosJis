@@ -37,14 +37,14 @@ const detailPages =
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-  const userData = localStorage.getItem("currentUser");
-  if (userData) setUser(JSON.parse(userData));
+    const userData = localStorage.getItem("currentUser");
+    if (userData) setUser(JSON.parse(userData));
 
-  fetch(`http://localhost:3001/api/comments/by-news-id/${news.id}`)
-    .then(res => res.json())
-    .then(data => setComments(data))
-    .catch(() => setComments([]));
-}, [news.title]);
+    fetch(`http://localhost:3001/api/comments/by-news-id/${news.id}`)
+      .then(res => res.json())
+      .then(data => setComments(data))
+      .catch(() => setComments([]));
+  }, [news.title]);
 
 
 
@@ -69,10 +69,19 @@ console.log("user:", user);
 console.log("commentText:", commentText);
 
   if (res.ok) {
-    setComments(prev => [...prev, {
-      ...newComment,
-      created_at: new Date().toISOString()
-    }]);
+    const body = await res.json();
+    // If server returned the created comment with user info, use it.
+    if (body && body.comment) {
+      setComments(prev => [...prev, body.comment]);
+    } else {
+      // Fallback: optimistic UI - include current user's name/photo
+      setComments(prev => [...prev, {
+        ...newComment,
+        user_name: user.fullName,
+        user_photo: user.photo || null,
+        created_at: new Date().toISOString()
+      }]);
+    }
     setCommentText("");
   }
 };
@@ -102,9 +111,9 @@ console.log("commentText:", commentText);
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
-        <div className="max-w-2xl w-full bg-white rounded-lg shadow-lg p-8">
-          <img src={news.image} alt={news.title} className="w-full h-64 object-cover rounded-lg mb-6" />
+      <div className="min-h-screen news-background flex items-center justify-center py-12 px-4">
+  <div className="max-w-2xl w-full bg-white/80 dark:bg-slate-900/70 rounded-lg shadow-2xl p-8 border border-amber-200/40 backdrop-blur-md">
+          <img src={news.image} alt={news.title} className="w-full max-h-[60vh] object-contain rounded-lg mb-6 bg-gray-50 dark:bg-slate-800" />
           <div className="flex flex-wrap gap-2 mb-2">
   {news.categories.map((cat: string, index: number) => (
     <span
@@ -144,7 +153,10 @@ console.log("commentText:", commentText);
             {comments.map((c, i) => (
               <div key={i} className="flex items-start gap-2 mb-2">
                 <img
-                  src={`/galeri/${c.user_id}.jpg`}
+                  src={
+                    // priority: user_photo (from DB), then comment.user_photo (dataURL), then public/galeri by id
+                    c.user_photo || c.user_photo || `/galeri/${c.user_id}.jpg`
+                  }
                   onError={(e) => { (e.target as HTMLImageElement).style.display = "none" }}
                   alt={c.user_name}
                   className="w-7 h-7 rounded-full object-cover"
@@ -180,13 +192,13 @@ console.log("commentText:", commentText);
                   maxLength={200}
                   required
                 />
-                <button type="submit" className="bg-red-600 text-white px-3 py-1 rounded text-sm">Kirim</button>
+                <button type="submit" className="bg-yellow-500 text-white px-3 py-1 rounded text-sm">Kirim</button>
               </form>
             ) : (
               <div className="mt-2 text-sm text-blue-600 cursor-pointer" onClick={() => navigate("/login")}>Login untuk berkomentar</div>
             )}
           </div>
-          <button onClick={() => navigate(-1)} className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors mt-8">Kembali</button>
+          <button onClick={() => navigate(-1)} className="bg-yellow-500 text-white px-6 py-2 rounded-full hover:bg-yellow-600 transition-colors mt-8">Kembali</button>
         </div>
       </div>
     </Layout>

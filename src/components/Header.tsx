@@ -127,13 +127,13 @@ const Header: React.FC<HeaderProps> = ({ onCategoryChange, selectedCategory, cat
         <div className="flex items-center justify-between py-3">
           {/* Logo */}
           <button
-            className="text-2xl font-bold text-red-600 focus:outline-none"
+            className="text-2xl font-bold text-yellow-500 focus:outline-none"
             style={{ background: "none", border: "none", padding: 0, lineHeight: 1 }}
             onClick={() => navigate("/")}
-            aria-label="Beranda NOW WOW"
+            aria-label="Beranda TEKKOM MENYAPA"
             type="button"
           >
-            NOW<br />WOW
+            TEKKOM<br />MENYAPA
           </button>
 
           {/* Search Bar */}
@@ -180,8 +180,8 @@ const Header: React.FC<HeaderProps> = ({ onCategoryChange, selectedCategory, cat
                 key={cat}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border focus:outline-none ${
                   selectedCategory === cat
-                    ? "bg-red-600 text-white border-red-600"
-                    : "bg-white text-gray-800 border-gray-300 hover:bg-red-50"
+                    ? "bg-yellow-500 text-white border-yellow-500"
+                    : "bg-white text-gray-800 border-gray-300 hover:bg-yellow-50"
                 }`}
                 onClick={() => {
                   if (cat === "Semua") navigate("/");
@@ -240,10 +240,10 @@ const Header: React.FC<HeaderProps> = ({ onCategoryChange, selectedCategory, cat
                     <img
                       src={currentUser.photo}
                       alt={currentUser.fullName}
-                      className="w-9 h-9 rounded-full object-cover border-2 border-red-600"
+                      className="w-9 h-9 rounded-full object-cover border-2 border-yellow-500"
                     />
                   ) : (
-                    <span className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 border-2 border-red-600">
+                    <span className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 border-2 border-yellow-500">
                       <UserIcon className="w-6 h-6 text-gray-500" />
                     </span>
                   )}
@@ -251,7 +251,7 @@ const Header: React.FC<HeaderProps> = ({ onCategoryChange, selectedCategory, cat
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="px-3 py-2 rounded-full text-sm font-medium bg-red-600 hover:bg-red-700 text-white transition-colors"
+                  className="px-3 py-2 rounded-full text-sm font-medium bg-yellow-500 hover:bg-yellow-600 text-white transition-colors"
                 >
                   Logout
                 </button>
@@ -262,22 +262,22 @@ const Header: React.FC<HeaderProps> = ({ onCategoryChange, selectedCategory, cat
                   to="/signup"
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                     location.pathname === '/signup'
-                      ? 'bg-red-600 text-white'
-                      : 'bg-red-600 hover:bg-red-700 text-white'
+                      ? 'bg-amber-600 text-amber-900'
+                      : 'bg-amber-400 hover:bg-amber-500 text-amber-900'
                   }`}
                 >
-                  <UserIcon className="inline w-4 h-4 mr-1" />
+                  <UserIcon className="inline w-4 h-4 mr-1 text-amber-900" />
                   Sign Up
                 </Link>
                 <Link
                   to="/login"
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                     location.pathname === '/login'
-                      ? 'bg-red-600 text-white'
-                      : 'bg-red-600 hover:bg-red-700 text-white'
+                      ? 'bg-amber-600 text-amber-900'
+                      : 'bg-amber-400 hover:bg-amber-500 text-amber-900'
                   }`}
                 >
-                  <UserIcon className="inline w-4 h-4 mr-1" />
+                  <UserIcon className="inline w-4 h-4 mr-1 text-amber-900" />
                   Login
                 </Link>
               </>

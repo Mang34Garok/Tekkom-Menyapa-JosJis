@@ -53,12 +53,12 @@ const SignUp = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
+      <div className="min-h-screen news-background flex items-center justify-center py-12 px-4">
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
           {/* Logo */}
           <div className="flex items-center justify-center mb-8">
-            <div className="text-3xl font-bold text-red-600 select-none">
-              NOW<br />WOW
+            <div className="text-3xl font-bold text-yellow-500 select-none">
+              TEKKOM MENYAPA
             </div>
           </div>
 

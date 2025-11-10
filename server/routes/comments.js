@@ -10,7 +10,8 @@ router.get("/by-news-id/:newsId", async (req, res) => {
 
   try {
     const [rows] = await db.query(
-      "SELECT c.id, c.user_id, u.full_name AS user_name, c.comment, c.created_at FROM comments c JOIN users u ON c.user_id = u.id WHERE c.news_id = ? ORDER BY c.created_at ASC ",
+      // include user's photo (if stored) as user_photo
+      "SELECT c.id, c.user_id, u.full_name AS user_name, CONCAT('/galeri/', u.id, '.jpg') AS user_photo, c.comment, c.created_at FROM comments c JOIN users u ON c.user_id = u.id WHERE c.news_id = ? ORDER BY c.created_at ASC ",
       [newsId]
     );
     res.json(rows);
@@ -29,12 +30,19 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    await db.query(
+    const [result] = await db.query(
       "INSERT INTO comments (news_id, user_id, comment) VALUES (?, ?, ?)",
       [news_id, user_id, comment]
     );
 
-    res.status(201).json({ message: "Komentar berhasil ditambahkan" });
+    // Fetch the inserted comment with user info to return to client
+    const insertId = result.insertId;
+    const [rows] = await db.query(
+      "SELECT c.id, c.user_id, u.full_name AS user_name, CONCAT('/galeri/', u.id, '.jpg') AS user_photo , c.comment, c.created_at FROM comments c JOIN users u ON c.user_id = u.id WHERE c.id = ?",
+      [insertId]
+    );
+
+    res.status(201).json({ message: "Komentar berhasil ditambahkan", comment: rows[0] });
   } catch (err) {
     console.error("❌ Error menambahkan komentar:", err);
     res.status(500).json({ error: "Gagal menambahkan komentar" });

@@ -16,7 +16,10 @@ const AddNews = () => {
 
     const user = JSON.parse(userData);
 
-    if (user.is_admin !== 1) {
+    // Normalize is_admin because it may come as number, string or boolean from the server/DB
+    const isAdmin = Number(user.is_admin) === 1 || user.is_admin === true;
+
+    if (!isAdmin) {
       alert("Maaf, hanya admin yang dapat mengakses halaman ini.");
       navigate("/", { replace: true });
     }
@@ -48,7 +51,10 @@ const AddNews = () => {
     }
 
     setLoading(true);
-    const payload = { title, excerpt, image, detail, categories: selectedCategories };
+    const userData = localStorage.getItem("currentUser");
+    const user = userData ? JSON.parse(userData) : null;
+
+    const payload = { title, excerpt, image, detail, categories: selectedCategories, userId: user?.id };
 
     const res = await fetch("http://localhost:3001/api/news", {
       method: "POST",
@@ -75,8 +81,8 @@ const AddNews = () => {
 
   return (
     <Layout>
-      <div className="max-w-2xl mx-auto p-6 bg-white shadow rounded-lg mt-8">
-        <h2 className="text-2xl font-bold mb-4">Tambah Berita</h2>
+      <div className="max-w-2xl mx-auto p-6 bg-white/90 shadow rounded-lg mt-8">
+  <h2 className="text-2xl font-bold mb-4"><span className="bg-amber-400 text-white px-3 py-1 rounded">Tambah Berita</span></h2>
         {error && <div className="text-red-600 mb-2">{error}</div>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
@@ -116,7 +122,7 @@ const AddNews = () => {
                   onClick={() => toggleCategory(cat)}
                   className={`px-3 py-1 rounded-full text-sm border ${
                     selectedCategories.includes(cat)
-                      ? "bg-red-600 text-white"
+                      ? "bg-amber-600 text-white"
                       : "bg-gray-100 text-gray-800"
                   }`}
                 >
@@ -128,7 +134,7 @@ const AddNews = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
+            className="bg-amber-600 text-white px-6 py-2 rounded hover:bg-amber-700"
           >
             {loading ? "Mengirim..." : "Tambah Berita"}
           </button>

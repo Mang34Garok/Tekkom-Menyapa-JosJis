@@ -96,6 +96,45 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    /* avoid using the `bg-background` Tailwind shorthand (it sets `background:` and can reset images)
+       so we explicitly set the background color and text color, then add the background image */
+    @apply text-foreground;
+    background-color: hsl(var(--background));
+    /* Global background image from public/background.jpg */
+    background-image: url('/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    /* Keep the background fixed so content scrolls over it */
+    background-attachment: fixed;
   }
+}
+
+/* Background for main news listing. Uses public/background.jpg */
+.news-background {
+  /* keep site color variables so theme still applies */
+  background-color: hsl(var(--background));
+  background-image: url('/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  /* ensure content sits above the background image */
+  position: relative;
+  z-index: 0;
+}
+
+/* Optional dark overlay to improve text contrast */
+.news-background::before {
+  content: '';
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background: rgba(0,0,0,0.25); /* tweak opacity as needed */
+  z-index: 0;
+}
+
+/* Make sure inner content is above the overlay */
+.news-background > * {
+  position: relative;
+  z-index: 1;
 }

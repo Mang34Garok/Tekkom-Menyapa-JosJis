@@ -1,5 +1,5 @@
 export const colorList = [
-  "text-red-600",
+  "text-yellow-500",
   "text-green-600",
   "text-blue-600",
   "text-yellow-600",

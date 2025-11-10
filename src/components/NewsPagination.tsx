@@ -11,23 +11,23 @@ const NewsPagination = ({ currentPage, totalPages, onPrevious, onNext }: NewsPag
   return (
     <div className="flex items-center justify-between mt-8">
       <button
-        className="flex items-center gap-2 px-4 py-2 text-red-600 hover:text-white transition-colors disabled:opacity-50 border border-red-600 bg-white rounded"
+        className="flex items-center gap-2 px-2 py-1 text-amber-900 transition-colors disabled:opacity-50 bg-transparent rounded"
         onClick={onPrevious}
         disabled={currentPage === 1}
       >
-        <ChevronLeft className="w-4 h-4" />
-        Previous Page
+  <ChevronLeft className="w-4 h-4 text-amber-400" />
+        <span className="bg-amber-400 text-amber-900 px-3 py-1 rounded">Previous Page</span>
       </button>
-      <span className="text-red-600 font-semibold">
+      <span className="bg-amber-400 text-amber-900 font-semibold px-3 py-1 rounded">
         Page {currentPage} of {totalPages}
       </span>
       <button
-        className="flex items-center gap-2 px-4 py-2 text-red-600 hover:text-white transition-colors disabled:opacity-50 border border-red-600 bg-white rounded"
+        className="flex items-center gap-2 px-2 py-1 text-amber-900 transition-colors disabled:opacity-50 bg-transparent rounded"
         onClick={onNext}
         disabled={currentPage === totalPages}
       >
-        Next Page
-        <ChevronRight className="w-4 h-4" />
+  <span className="bg-amber-400 text-amber-900 px-3 py-1 rounded">Next Page</span>
+  <ChevronRight className="w-4 h-4 text-amber-400" />
       </button>
     </div>
   );
