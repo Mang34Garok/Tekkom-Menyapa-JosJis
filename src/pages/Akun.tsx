@@ -18,6 +18,9 @@ const Akun = () => {
     userId: user?.id || "",
   });
   const [saveToServer, setSaveToServer] = useState(true);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
+  const [showPasswordFields, setShowPasswordFields] = useState(false);
   if (!user) {
     navigate("/login");
     return null;
@@ -102,6 +105,46 @@ const Akun = () => {
 
   const handleDeletePhoto = () => {
     setForm((f) => ({ ...f, photo: "" }));
+  };
+
+  const handlePasswordInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPasswordForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleChangePassword = async () => {
+    const { currentPassword, newPassword, confirmPassword } = passwordForm;
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      alert('Semua field password wajib diisi.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      alert('Password baru dan konfirmasi tidak cocok.');
+      return;
+    }
+    if (newPassword.length < 6) {
+      alert('Password baru minimal 6 karakter.');
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:3001/api/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user.id, currentPassword, newPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || 'Gagal mengganti password.');
+        return;
+      }
+      alert(data.message || 'Password berhasil diubah.');
+      setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      setShowChangePassword(false);
+    } catch (err) {
+      console.error(err);
+      alert('Gagal menghubungi server.');
+    }
   };
 
   return (
@@ -202,6 +245,12 @@ const Akun = () => {
                 Edit Profil
               </button>
               <button
+                onClick={() => setShowChangePassword(true)}
+                className="mt-2 bg-gray-800 text-white px-6 py-2 rounded-full hover:bg-gray-900 transition-colors"
+              >
+                Ganti Password
+              </button>
+              <button
                 onClick={() => navigate(-1)}
                 className="mt-2 bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors"
               >
@@ -211,6 +260,62 @@ const Akun = () => {
           )}
         </div>
       </div>
+      {showChangePassword && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h3 className="text-xl font-semibold mb-4">Ganti Password</h3>
+            <input
+              type={showPasswordFields ? "text" : "password"}
+              name="currentPassword"
+              value={passwordForm.currentPassword}
+              onChange={handlePasswordInput}
+              placeholder="Password Saat Ini"
+              className="w-full mb-2 px-3 py-2 border rounded"
+            />
+            <input
+              type={showPasswordFields ? "text" : "password"}
+              name="newPassword"
+              value={passwordForm.newPassword}
+              onChange={handlePasswordInput}
+              placeholder="Password Baru"
+              className="w-full mb-2 px-3 py-2 border rounded"
+            />
+            <input
+              type={showPasswordFields ? "text" : "password"}
+              name="confirmPassword"
+              value={passwordForm.confirmPassword}
+              onChange={handlePasswordInput}
+              placeholder="Konfirmasi Password Baru"
+              className="w-full mb-2 px-3 py-2 border rounded"
+            />
+
+            <div className="flex items-center gap-2 mb-4">
+              <input
+                id="showPassword"
+                type="checkbox"
+                checked={showPasswordFields}
+                onChange={(e) => setShowPasswordFields(e.target.checked)}
+                className="w-4 h-4"
+              />
+              <label htmlFor="showPassword" className="text-sm">Tampilkan password</label>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowChangePassword(false)}
+                className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleChangePassword}
+                className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+              >
+                Simpan
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };

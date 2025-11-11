@@ -14,7 +14,7 @@ const NewsCard = ({ id, categories, title, excerpt, image }: NewsCardProps) => {
   const news = { id, categories, title, excerpt, image };
 
   return (
-  <Card className="rounded-xl overflow-hidden border border-gray-100 bg-white/75 dark:bg-slate-900/75 dark:border-slate-700 shadow-sm hover:shadow-lg transform hover:-translate-y-0.5 transition-all cursor-pointer">
+  <Card className="rounded-xl overflow-hidden border border-gray-100 bg-white/75 dark:bg-slate-900/75 dark:border-slate-700 shadow-sm hover:shadow-lg transform-gpu transition-transform duration-300 ease-out hover:scale-110 cursor-pointer">
       <CardContent className="p-0">
         <div className="flex gap-4 p-4 items-start" onClick={() => navigate("/detail", { state: { news } })}>
           <img

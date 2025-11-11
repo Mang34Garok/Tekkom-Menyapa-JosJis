@@ -13,7 +13,7 @@ const FeaturedNews = ({ categories, title, excerpt, image, categoryColor }: Feat
   const news = { categories, title, excerpt, image, categoryColor };
 
   return (
-    <div className="rounded-lg shadow-lg overflow-hidden bg-transparent">
+  <div className="rounded-lg shadow-lg overflow-hidden bg-transparent transform-gpu transition-transform duration-500 ease-out hover:scale-110 hover:shadow-xl cursor-pointer">
       <img
         src={image}
         alt={title}

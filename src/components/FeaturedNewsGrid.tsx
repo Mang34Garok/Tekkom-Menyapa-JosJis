@@ -18,7 +18,7 @@ const FeaturedNewsGrid = ({ newsList }: FeaturedNewsGridProps) => {
       {newsList.map((news, idx) => (
         <div
           key={idx}
-          className="rounded-xl overflow-hidden border border-amber-200/40 bg-white/75 dark:bg-slate-900/75 shadow-sm hover:shadow-md transform hover:-translate-y-1 transition cursor-pointer"
+          className="rounded-xl overflow-hidden border border-amber-200/40 bg-white/75 dark:bg-slate-900/75 shadow-sm transform-gpu transition-transform duration-500 ease-out hover:scale-110 hover:shadow-md cursor-pointer"
           onClick={() => navigate("/detail", { state: { news } })}
         >
           <div className="relative h-64">

@@ -105,6 +105,36 @@ router.put("/update", async (req, res) => {
   }
 });
 
+// Change password
+router.post("/change-password", async (req, res) => {
+  const { userId, currentPassword, newPassword } = req.body;
+
+  if (!userId || !currentPassword || !newPassword) {
+    return res.status(400).json({ error: "Semua field wajib diisi." });
+  }
+
+  try {
+    const [rows] = await db.query("SELECT password FROM users WHERE id = ?", [userId]);
+    if (!rows || rows.length === 0) {
+      return res.status(404).json({ error: "Pengguna tidak ditemukan." });
+    }
+
+    const user = rows[0];
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: "Password lama salah." });
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await db.query("UPDATE users SET password = ? WHERE id = ?", [hashed, userId]);
+
+    res.json({ message: "Password berhasil diubah." });
+  } catch (err) {
+    console.error("❌ Error saat mengganti password:", err);
+    res.status(500).json({ error: "Terjadi kesalahan server." });
+  }
+});
+
 router.post("/upload-photo", upload.single("photo"), async (req, res) => {
   try {
     const { userId } = req.body;
