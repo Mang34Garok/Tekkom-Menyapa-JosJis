@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Layout from "../components/Layout";
 import NewsCard from "../components/NewsCard";
 import FeaturedNewsGrid from "../components/FeaturedNewsGrid";
+import FeaturedNewsCarousel from "../components/FeaturedNewsCarousel";
 import NewsPagination from "../components/NewsPagination";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getCategoryColor } from "../utils/color"; // atau "../../utils/color" tergantung lokasi file
@@ -115,7 +116,7 @@ const Index = () => {
   // Rekomendasi berita (ambil dari hasil filter, bukan dari semua berita)
   const recommendedNews = useMemo(() => {
   const shuffled = [...newsData].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, 8);
+  return shuffled.slice(0, 5);
 }, [newsData]);
 
 
@@ -140,6 +141,11 @@ const Index = () => {
   <div className="min-h-screen news-background">
           <section className="py-8">
             <div className="container mx-auto px-4">
+              {/* Featured News Carousel - Berita Utama */}
+              <div className="mb-8">
+                <FeaturedNewsCarousel newsList={filteredNews.slice(0, 8)} />
+              </div>
+
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Kolom Kiri */}
                 <div className="lg:col-span-2">

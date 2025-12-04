@@ -246,7 +246,7 @@ const Akun = () => {
               </button>
               <button
                 onClick={() => setShowChangePassword(true)}
-                className="mt-2 bg-gray-800 text-white px-6 py-2 rounded-full hover:bg-gray-900 transition-colors"
+                className="mt-2 bg-amber-600 text-white px-6 py-2 rounded-full hover:bg-amber-700 transition-colors"
               >
                 Ganti Password
               </button>

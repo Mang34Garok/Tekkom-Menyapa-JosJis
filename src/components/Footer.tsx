@@ -17,9 +17,9 @@ const Footer = () => {
     <footer className="bg-black text-white py-8">
       <div className="container mx-auto px-4">
         {/* Footer Content */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-8 pt-8 border-t border-gray-800">
+        <div className="flex flex-col md:flex-row items-center justify-between py-6">
           {/* Logo and Tagline */}
-          <div className="flex items-center space-x-4 mb-4 md:mb-0">
+          <div className="flex items-center space-x-5 mb-4 md:mb-0">
             <button
               className="text-2xl font-bold text-yellow-500 focus:outline-none drop-shadow-lg hover:scale-105 transition-transform"
               style={{ background: "none", border: "none", padding: 0, lineHeight: 1 }}
@@ -29,11 +29,11 @@ const Footer = () => {
             >
               TEKKOM<br />MENYAPA
             </button>
-            <p className="text-gray-200 font-semibold italic animate-pulse">{randomFooterQuote}</p>
+            <p className="text-gray-200 font-semibold italic animate-pulse text-sm">{randomFooterQuote}</p>
           </div>
 
           {/* Social Media Icons */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-5">
             <a href="#" className="text-gray-400 hover:text-white transition-colors">
               <Facebook className="w-6 h-6" />
             </a>
@@ -49,12 +49,12 @@ const Footer = () => {
           </div>
         </div>
         {/* Baris copyright dan info tambahan */}
-        <div className="mt-8 flex flex-col md:flex-row items-center justify-between text-sm text-gray-300 opacity-80">
+        <div className="mt-6 flex flex-col md:flex-row items-center justify-between text-sm text-gray-300 opacity-80">
           <div>
             &copy; {new Date().getFullYear()} TEKKOM MENYAPA News. All rights reserved.<br />
             <span className="text-xs text-gray-400">Creator: Alif Ridhwan Al Ghozali</span>
           </div>
-          <div className="flex gap-4 mt-2 md:mt-0">
+          <div className="flex gap-5 mt-2 md:mt-0 text-sm">
             <button onClick={() => navigate('/kebijakan-privasi')} className="hover:underline bg-transparent border-none p-0 m-0 text-inherit cursor-pointer">Kebijakan Privasi</button>
             <button onClick={() => navigate('/syarat-ketentuan')} className="hover:underline bg-transparent border-none p-0 m-0 text-inherit cursor-pointer">Syarat & Ketentuan</button>
             <button onClick={() => navigate('/kontak')} className="hover:underline bg-transparent border-none p-0 m-0 text-inherit cursor-pointer">Kontak</button>

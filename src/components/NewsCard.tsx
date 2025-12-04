@@ -1,5 +1,6 @@
 import { Card, CardContent } from "./ui/card";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 interface NewsCardProps {
   id?: string; // ✅ tambahkan id opsional
@@ -11,16 +12,31 @@ interface NewsCardProps {
 }
 const NewsCard = ({ id, categories, title, excerpt, image }: NewsCardProps) => {
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
   const news = { id, categories, title, excerpt, image };
 
+  useEffect(() => {
+    const userData = localStorage.getItem("currentUser");
+    if (userData) {
+      const user = JSON.parse(userData);
+      const adminStatus = Number(user.is_admin) === 1 || user.is_admin === true;
+      setIsAdmin(adminStatus);
+    }
+  }, []);
+
+  const handleEdit = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate(`/edit-news?id=${id}`);
+  };
+
   return (
-  <Card className="rounded-xl overflow-hidden border border-gray-100 bg-white/75 dark:bg-slate-900/75 dark:border-slate-700 shadow-sm hover:shadow-lg transform-gpu transition-transform duration-300 ease-out hover:scale-110 cursor-pointer">
+  <Card className="rounded-xl overflow-hidden border border-gray-100 bg-white/75 dark:bg-slate-900/75 dark:border-slate-700 shadow-sm hover:shadow-lg transform-gpu transition-transform duration-300 ease-out hover:scale-110 cursor-pointer w-full">
       <CardContent className="p-0">
-        <div className="flex gap-4 p-4 items-start" onClick={() => navigate("/detail", { state: { news } })}>
+        <div className="flex gap-4 p-6 items-start w-full" onClick={() => navigate("/detail", { state: { news } })}>
           <img
             src={image}
             alt={title}
-            className="w-24 h-24 object-cover rounded-lg flex-shrink-0 border border-gray-100 dark:border-slate-700"
+            className="w-32 h-32 object-cover rounded-lg flex-shrink-0 border border-gray-100 dark:border-slate-700"
           />
           <div className="flex-1">
             <div className="flex flex-wrap gap-2 mb-2">
@@ -34,6 +50,14 @@ const NewsCard = ({ id, categories, title, excerpt, image }: NewsCardProps) => {
             </div>
             <h3 className="font-semibold text-gray-900 dark:text-gray-100 mt-0 mb-2 line-clamp-2">{title}</h3>
             <p className="text-gray-700 dark:text-gray-300 text-sm line-clamp-2">{excerpt}</p>
+            {isAdmin && (
+              <button
+                onClick={handleEdit}
+                className="mt-2 bg-amber-500 text-white px-3 py-1 rounded text-xs hover:bg-amber-600 transition"
+              >
+                Edit
+              </button>
+            )}
           </div>
         </div>
       </CardContent>

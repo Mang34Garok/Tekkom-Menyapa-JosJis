@@ -1,4 +1,4 @@
-import { Search, User as UserIcon } from "lucide-react";
+import { Search, User as UserIcon, ChevronDown } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import React from "react";
 import { useEffect, useRef } from "react";
@@ -105,9 +105,12 @@ const Header: React.FC<HeaderProps> = ({ onCategoryChange, selectedCategory, cat
   }, [location.search]);
 
   const handleLogout = () => {
-    localStorage.removeItem("currentUser");
-    setCurrentUser(null);
-    navigate("/login");
+    const confirmed = window.confirm("Apakah Anda yakin ingin logout?");
+    if (confirmed) {
+      localStorage.removeItem("currentUser");
+      setCurrentUser(null);
+      navigate("/login");
+    }
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -198,9 +201,10 @@ const Header: React.FC<HeaderProps> = ({ onCategoryChange, selectedCategory, cat
               <div className="relative">
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="px-4 py-2 rounded-full bg-white text-black -800 border border-gray-300 hover:bg-red-50"
+                  className="px-4 py-2 rounded-full bg-white text-black border border-gray-300 hover:bg-gray-50 flex items-center gap-2"
                 >
                   Lainnya
+                  <ChevronDown className={`w-4 h-4 transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
                 </button>
 
                 {showDropdown && (
@@ -230,6 +234,14 @@ const Header: React.FC<HeaderProps> = ({ onCategoryChange, selectedCategory, cat
           <div className="flex items-center space-x-3 ml-6">
             {currentUser ? (
               <>
+                {(Number(currentUser.is_admin) === 1 || currentUser.is_admin === true) && (
+                  <button
+                    onClick={() => navigate("/edit-news-list")}
+                    className="px-3 py-2 rounded-full text-sm font-medium bg-yellow-500 hover:bg-yellow-600 text-white transition-colors"
+                  >
+                    Kelola Berita
+                  </button>
+                )}
                 <button
                   className="flex items-center space-x-2 focus:outline-none"
                   onClick={() => navigate("/akun")}
